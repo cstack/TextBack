@@ -34,6 +34,11 @@ public class MainActivity extends Activity {
 
     }
 
+    public void enterPhrases(View view){
+        Intent intent = new Intent(this, SetPhrases.class);
+        startActivity(intent);
+    }
+
     // ---sends an SMS message to another device---
     public void sendSMS(View view){
 
