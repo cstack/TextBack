@@ -26,13 +26,21 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="DEBUG" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Unnamed-0" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de529f45-8b60-4868-acc1-25bbeca8298c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TextBack/libs/PebbleKit.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/PebbleKit.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TextBack/TextBack.iml" afterPath="$PROJECT_DIR$/TextBack/TextBack.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../PebbleKitExample/libs/PebbleKit.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../PebbleKitExample/src/com/example/PebbleKitExample/Constants.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../PebbleKitExample/.idea/libraries/PebbleKit.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../PebbleKitExample/src/com/example/PebbleKitExample/MainActivity.java" afterPath="$PROJECT_DIR$/../PebbleKitExample/src/com/example/PebbleKitExample/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/MainActivity.java" afterPath="$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../PebbleKitExample/PebbleKitExample.iml" afterPath="$PROJECT_DIR$/../PebbleKitExample/PebbleKitExample.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TextBack/build.gradle" afterPath="$PROJECT_DIR$/TextBack/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../PebbleKitExample/.idea/misc.xml" afterPath="$PROJECT_DIR$/../PebbleKitExample/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../PebbleKitExample/.idea/modules.xml" afterPath="$PROJECT_DIR$/../PebbleKitExample/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../PebbleKitExample/.idea/vcs.xml" afterPath="$PROJECT_DIR$/../PebbleKitExample/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../PebbleKitExample/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../PebbleKitExample/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TextBack.iws" />
@@ -97,10 +105,50 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="0" selection-start="2461" selection-end="2461" vertical-scroll-proportion="0.0" vertical-offset="719" max-vertical-offset="1155">
+            <state line="67" column="9" selection-start="2728" selection-end="2728" vertical-scroll-proportion="-1.1452785" vertical-offset="1478" max-vertical-offset="1995">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1995#2307#0" expanded="true" />
+                <element signature="e#2288#2289#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TextBack/build/manifests/debug/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="75" selection-start="1328" selection-end="1328" vertical-scroll-proportion="0.0" vertical-offset="275" max-vertical-offset="675">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TextBack/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="0" selection-start="208" selection-end="208" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Constants.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/TextBack/libs/PebbleKit.jar!/com/getpebble/android/kit/Constants.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="19.2" vertical-offset="480" max-vertical-offset="1005">
               <folding />
             </state>
           </provider>
@@ -109,16 +157,16 @@
       <file leaf-file-name="SMSReceiver.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/SMSReceiver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="90" column="0" selection-start="2842" selection-end="2842" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1380">
+            <state line="90" column="0" selection-start="2842" selection-end="2842" vertical-scroll-proportion="0.0" vertical-offset="495" max-vertical-offset="1380">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SetPhrases.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="SetPhrases.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/SetPhrases.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="45" selection-start="745" selection-end="745" vertical-scroll-proportion="0.67375886" vertical-offset="120" max-vertical-offset="1590">
+            <state line="78" column="9" selection-start="2443" selection-end="2594" vertical-scroll-proportion="0.0" vertical-offset="810" max-vertical-offset="1590">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -133,24 +181,6 @@
           </provider>
           <provider selected="true" editor-type-id="text-editor">
             <state line="11" column="31" selection-start="400" selection-end="400" vertical-scroll-proportion="-6.111111" vertical-offset="0" max-vertical-offset="405">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TextBack/src/main/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="61" selection-start="1641" selection-end="1641" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="915">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TextBack/src/main/res/values/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="29" selection-start="225" selection-end="225" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="315">
               <folding />
             </state>
           </provider>
@@ -549,9 +579,11 @@
         <option value="$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/SMSReceiver.java" />
         <option value="$PROJECT_DIR$/TextBack/src/main/res/layout/set_phrases.xml" />
         <option value="$PROJECT_DIR$/TextBack/src/main/res/layout/phrase_row.xml" />
-        <option value="$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/MainActivity.java" />
         <option value="$PROJECT_DIR$/TextBack/src/main/res/layout/phrase_listview_footer.xml" />
         <option value="$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/SetPhrases.java" />
+        <option value="$PROJECT_DIR$/TextBack/build/manifests/debug/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/TextBack/build.gradle" />
+        <option value="$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -642,6 +674,36 @@
               <option name="myItemId" value="libs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PebbleKit.jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TextBack" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TextBackProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TextBack" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PebbleKit.jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="kit" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
@@ -653,7 +715,7 @@
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/AlchemyAPI_Android-0.8" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PebbleKitExample" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
@@ -855,18 +917,18 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32957748" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34647888" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32957748" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34647888" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37887323" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22274144" sideWeight="0.6535211" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22274144" sideWeight="0.6211268" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32957748" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -888,34 +950,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="83" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/SMSReceiver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="164" selection-end="164" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="1200">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TextBack/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="32" selection-start="602" selection-end="602" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="735">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TextBack/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="46" selection-start="250" selection-end="250" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="225">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TextBack/src/main/res/layout/activity_main.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -981,13 +1015,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="0" selection-start="2461" selection-end="2461" vertical-scroll-proportion="0.0" vertical-offset="719" max-vertical-offset="1155">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TextBack/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="36" column="61" selection-start="1641" selection-end="1641" vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="915">
@@ -1012,11 +1039,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$PROJECT_DIR$/TextBack/libs/PebbleKit.jar!/com/getpebble/android/kit/Constants.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="19.2" vertical-offset="480" max-vertical-offset="1005">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="448">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TextBack/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="0" selection-start="208" selection-end="208" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/SetPhrases.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="45" selection-start="745" selection-end="745" vertical-scroll-proportion="0.67375886" vertical-offset="120" max-vertical-offset="1590">
+        <state line="78" column="9" selection-start="2443" selection-end="2594" vertical-scroll-proportion="0.0" vertical-offset="810" max-vertical-offset="1590">
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TextBack/build/manifests/debug/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="75" selection-start="1328" selection-end="1328" vertical-scroll-proportion="0.0" vertical-offset="275" max-vertical-offset="675">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TextBack/src/main/java/com/example/textback/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="9" selection-start="2728" selection-end="2728" vertical-scroll-proportion="-1.1452785" vertical-offset="1478" max-vertical-offset="1995">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1995#2307#0" expanded="true" />
+            <element signature="e#2288#2289#0" expanded="true" />
           </folding>
         </state>
       </provider>
