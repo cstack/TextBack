@@ -19,11 +19,19 @@ PBL_APP_INFO(MY_UUID,
 
 #define MESSAGE_KEY 0x0
 
+static void app_send_succeeded(DictionaryIterator *sent, void *context);
 static void app_send_failed(DictionaryIterator* failed, AppMessageResult reason, void* context);
 static void app_received_msg(DictionaryIterator* received, void* context);
+void hide_message_view();
 
 
 Window window;
+
+// Notification
+ScrollLayer scroll_layer;
+TextLayer text_layer;
+char scroll_text[256];
+const int vert_scroll_text_padding = 10;
 
 // Response Menu
 SimpleMenuLayer simple_menu_layer;
@@ -43,6 +51,7 @@ bool register_callbacks() {
   if (!callbacks_registered) {
     app_callbacks = (AppMessageCallbacksNode){
       .callbacks = {
+        .out_sent = app_send_succeeded,
         .out_failed = app_send_failed,
         .in_received = app_received_msg
       },
@@ -72,8 +81,13 @@ void send_message(const char * message) {
 }
 
 void display_message(const char * message) {
-  menu_items[0].title = message;
-  layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
+  strcpy(scroll_text, message);
+
+  // Trim text layer and scroll content to fit text box
+  GSize max_size = text_layer_get_max_used_size(app_get_current_graphics_context(), &text_layer);
+  scroll_layer_set_content_size(&scroll_layer, GSize(144, max_size.h + vert_scroll_text_padding));
+
+  layer_mark_dirty(&(text_layer.layer));
 }
 
 // You can capture when the user selects a menu icon with a menu item select callback
@@ -87,8 +101,7 @@ void menu_select_callback(int index, void *ctx) {
 }
 
 // This initializes the menu upon window load
-void window_load(Window *me) {
-
+void show_response_menu() {
   // Although we already defined NUM_menu_items, you can define
   // an int as such to easily change the order of menu items later
   int num_a_items = 0;
@@ -118,64 +131,27 @@ void window_load(Window *me) {
   // Now we prepare to initialize the simple menu layer
   // We need the bounds to specify the simple menu layer's viewport size
   // In this case, it'll be the same as the window's
-  GRect bounds = me->layer.bounds;
+  GRect bounds = window.layer.bounds;
 
   // Initialize the simple menu layer
-  simple_menu_layer_init(&simple_menu_layer, bounds, me, menu_sections, NUM_MENU_SECTIONS, NULL);
+  simple_menu_layer_init(&simple_menu_layer, bounds, &window, menu_sections, NUM_MENU_SECTIONS, NULL);
 
   // Add it to the window for display
-  layer_add_child(&me->layer, simple_menu_layer_get_layer(&simple_menu_layer));
-}
-
-
-// Deinitialize resources on window unload that were initialized on window load
-void window_unload(Window *me) {
-}
-
-
-void handle_init(AppContextRef ctx) {
-
-  window_init(&window, "Demo");
-  window_stack_push(&window, true /* Animated */);
-
-  // Setup the window handlers
-  window_set_window_handlers(&window, (WindowHandlers){
-    .load = window_load,
-    .unload = window_unload,
-  });
-
-  register_callbacks();
-}
-
-void my_out_sent_handler(DictionaryIterator *sent, void *context) {
-  // outgoing message was delivered
-  // Update UI
-  menu_items[selected_message].subtitle = "Message Sent";
-  layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
-}
-void my_out_fail_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
-  // outgoing message failed
-  // Update UI
-  menu_items[selected_message].subtitle = "Message Failed";
-  layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
-}
-void my_in_rcv_handler(DictionaryIterator *received, void *context) {
-  // incoming message received
-  Tuple *message_tuple = dict_find(received, MESSAGE_KEY);
-
-  if (message_tuple) {
-    display_message(message_tuple->value->cstring);
-  } else {
-    display_message("Could not parse message");
-  }
+  layer_add_child(&window.layer, simple_menu_layer_get_layer(&simple_menu_layer));
 }
 
 static void app_send_failed(DictionaryIterator* failed, AppMessageResult reason, void* context) {
   display_message("Message dropped");
 }
 
+static void app_send_succeeded(DictionaryIterator *sent, void *context) {
+  menu_items[selected_message].subtitle = "Message Sent";
+  layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
+}
+
 static void app_received_msg(DictionaryIterator* received, void* context) {
   // incoming message received
+  //vibes_short_pulse();
   Tuple *message_tuple = dict_find(received, MESSAGE_KEY);
 
   if (message_tuple) {
@@ -183,6 +159,62 @@ static void app_received_msg(DictionaryIterator* received, void* context) {
   } else {
     display_message("Could not parse message");
   }
+}
+
+void select_single_click_handler(ClickRecognizerRef recognizer, Window *window) {
+  hide_message_view();
+  show_response_menu();
+}
+
+void setup_respond_button(ClickConfig **config, void *context) {
+  config[BUTTON_ID_SELECT]->click.handler = (ClickHandler) select_single_click_handler;
+}
+
+void hide_message_view() {
+  layer_set_hidden(&scroll_layer.layer, true);
+}
+
+void show_message_view(Window * me) {
+  const GRect max_text_bounds = GRect(0, 0, 144, 2000);
+
+  // Initialize the scroll layer
+  scroll_layer_init(&scroll_layer, me->layer.bounds);
+
+  // This binds the scroll layer to the window so that up and down map to scrolling
+  // You may use scroll_layer_set_callbacks to add or override interactivity
+  scroll_layer_set_click_config_onto_window(&scroll_layer, me);
+  ScrollLayerCallbacks handlers = {
+    .click_config_provider = &setup_respond_button
+  };
+  scroll_layer_set_callbacks(&scroll_layer, handlers);
+
+  // Set the initial max size
+  scroll_layer_set_content_size(&scroll_layer, max_text_bounds.size);
+
+  // Initialize the text layer
+  text_layer_init(&text_layer, max_text_bounds);
+  display_message("Loading Message...");
+  text_layer_set_text(&text_layer, scroll_text);
+
+  // Change the font to a nice readable one
+  // This is system font; you can inspect pebble_fonts.h for all system fonts
+  // or you can take a look at feature_custom_font to add your own font
+  text_layer_set_font(&text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
+
+  // Add the layers for display
+  scroll_layer_add_child(&scroll_layer, &text_layer.layer);
+
+  layer_add_child(&me->layer, &scroll_layer.layer);
+}
+
+void handle_init(AppContextRef ctx) {
+
+  window_init(&window, "TextBack");
+  window_set_window_handlers(&window, (WindowHandlers) {
+    .load = show_message_view,
+  });
+  window_stack_push(&window, true /* Animated */);
+  register_callbacks();
 }
 
 void pbl_main(void *params) {
