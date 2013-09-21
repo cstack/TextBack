@@ -2,7 +2,10 @@ package com.example.textback;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.ListView;
 import com.example.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SetPhrases extends Activity {
 
@@ -26,8 +30,7 @@ public class SetPhrases extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_phrases);
-        phrases = new ArrayList<String>();
-        phrases.add("Test phrase");
+        loadPhrasesFromPreferences();
 
         listView = (ListView)findViewById(R.id.phrase_list);
         listAdapter = new ArrayAdapter<String>(this, R.layout.phrase_row, phrases);
@@ -41,7 +44,7 @@ public class SetPhrases extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 phrases.remove(i);
-                listAdapter.notifyDataSetChanged();
+                updatePhrases();
             }
         });
 
@@ -52,8 +55,31 @@ public class SetPhrases extends Activity {
         String newPhrase = newPhraseView.getText().toString();
         newPhraseView.setText("");
         phrases.add(newPhrase);
-        listAdapter.notifyDataSetChanged();
+        updatePhrases();
 
+    }
+    public void updatePhrases(){
+        listAdapter.notifyDataSetChanged();
+        savePhrasesInPreferences();
+    }
+    public void savePhrasesInPreferences(){
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+        Editor prefsEditor = appSharedPrefs.edit();
+        prefsEditor.putString("Phrases", phrases.toString());
+        prefsEditor.commit();
+    }
+    public void loadPhrasesFromPreferences(){
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+        Editor prefsEditor = appSharedPrefs.edit();
+        String phrasesString = appSharedPrefs.getString("Phrases", "");
+        if(phrasesString!=null){
+            phrases=new ArrayList<String>(Arrays.asList(phrasesString.split(",")));
+        }
+        else{
+            phrases=new ArrayList<String>();
+        }
     }
 
     @Override
