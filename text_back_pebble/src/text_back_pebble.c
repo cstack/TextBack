@@ -19,6 +19,7 @@ PBL_APP_INFO(MY_UUID,
 
 #define MESSAGE_KEY 0x0
 #define PHRASE_KEY 0x1
+#define READY_KEY 0x2
 
 #define NUM_PHRASES 5
 #define MAX_PHRASE_LENGTH 140
@@ -72,6 +73,22 @@ bool register_callbacks() {
 
 void send_message(const char * message) {
   Tuplet value = TupletCString(MESSAGE_KEY, message);
+
+  DictionaryIterator *iter;
+  app_message_out_get(&iter);
+
+  if (iter == NULL)
+    return;
+
+  dict_write_tuplet(iter, &value);
+  dict_write_end(iter);
+
+  app_message_out_send();
+  app_message_out_release();
+}
+
+void send_ready_for_message() {
+  Tuplet value = TupletInteger(READY_KEY, 1);
 
   DictionaryIterator *iter;
   app_message_out_get(&iter);
@@ -209,6 +226,8 @@ void show_message_view(Window * me) {
   scroll_layer_add_child(&scroll_layer, &text_layer.layer);
 
   layer_add_child(&me->layer, &scroll_layer.layer);
+
+  send_ready_for_message();
 }
 
 void handle_init(AppContextRef ctx) {
