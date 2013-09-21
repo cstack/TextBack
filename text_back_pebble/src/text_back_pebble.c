@@ -145,7 +145,7 @@ void show_response_menu() {
 
   // Bind the menu items to the corresponding menu sections
   menu_sections[0] = (SimpleMenuSection){
-    .num_items = NUM_MENU_ITEMS,
+    .num_items = num_canned_responses,
     .items = menu_items,
   };
 
@@ -162,11 +162,11 @@ void show_response_menu() {
 }
 
 static void app_send_failed(DictionaryIterator* failed, AppMessageResult reason, void* context) {
-  display_message("Message dropped");
+  display_message("Could not send message to phone.");
 }
 
 static void app_send_succeeded(DictionaryIterator *sent, void *context) {
-  menu_items[selected_message].subtitle = "Message Sent";
+  menu_items[selected_message].subtitle = "Message sent to phone";
   layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
 }
 
@@ -177,7 +177,9 @@ static void app_received_msg(DictionaryIterator* received, void* context) {
   Tuple *phrase_tuple = dict_find(received, PHRASE_KEY);
   if (message_tuple) {
     display_message(message_tuple->value->cstring);
-  } else if (phrase_tuple) {
+  }
+
+  if (phrase_tuple) {
     add_phrase(phrase_tuple->value->cstring);
   }
 }
