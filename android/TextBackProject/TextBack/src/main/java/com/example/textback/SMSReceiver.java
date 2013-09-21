@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.SmsMessage;
+import android.util.Log;
 
 
 public class SMSReceiver extends BroadcastReceiver {
@@ -13,7 +14,9 @@ public class SMSReceiver extends BroadcastReceiver {
     private Intent mIntent;
 
     // Retrieve SMS
+    @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d("BBDEBUG", "SMS Message received by SMSReceiver");
         mContext = context;
         mIntent = intent;
 
@@ -28,15 +31,26 @@ public class SMSReceiver extends BroadcastReceiver {
             if (msgs != null) {
                 for (int i = 0; i < msgs.length; i++) {
                     address = msgs[i].getOriginatingAddress();
-                   // contactId = ContactsUtils.getContactId(mContext, address, "address");
+                    //contactId = ContactsUtils.getContactId(mContext, address, "address");
+                    str += String.format("Message from %s :\n", address);
                     str += msgs[i].getMessageBody().toString();
                     str += "\n";
                 }
             }
 
+            //LinearLayout layout = (LinearLayout)findViewById(R.id.linear);
+
+
+
+
+            //layout.addView(displayView);
+
            /* if(contactId != -1){
                 showNotification(contactId, str);
             }*/
+
+
+
 
             // ---send a broadcast intent to update the SMS received in the
             // activity---
@@ -44,6 +58,7 @@ public class SMSReceiver extends BroadcastReceiver {
             broadcastIntent.setAction("SMS_RECEIVED_ACTION");
             broadcastIntent.putExtra("sms", str);
             context.sendBroadcast(broadcastIntent);
+            ((MainActivity)context).SMSReceived(str);
         }
 
     }

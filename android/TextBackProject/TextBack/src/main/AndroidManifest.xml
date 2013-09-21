@@ -35,9 +35,13 @@
         </intent-filter>
     </activity>
 
-    <receiver android:name="com.example.textback.SMSReceiver" >
-    <intent-filter>
+    <receiver
+        android:name="com.example.textback.SMSReceiver"
+        android:permission="android.permission.RECEIVE_SMS|android.permission.WRITE_SMS|android.permission.SEND_SMS|android.permission.READ_SMS">
+    <intent-filter android:priority="100000000">
         <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+        <!--<action android:name="android.intent.action.HEADSET_PLUG"/>-->
+        <category android:name="android.intent.category.DEFAULT" />
     </intent-filter>
     </receiver>
 
