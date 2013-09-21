@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="PebbleKit">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/TextBack/libs/PebbleKit.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
