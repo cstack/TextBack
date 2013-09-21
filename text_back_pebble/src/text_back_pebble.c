@@ -14,6 +14,8 @@ PBL_APP_INFO(MY_UUID,
 #define NUM_MENU_ITEMS 3
 #define NUM_MENU_SECTIONS 1
 
+#define MESSAGE_KEY 0x0
+
 
 Window window;
 
@@ -22,14 +24,33 @@ SimpleMenuLayer simple_menu_layer;
 SimpleMenuSection menu_sections[NUM_MENU_SECTIONS];
 SimpleMenuItem menu_items[NUM_MENU_ITEMS];
 
-// You can capture when the user selects a menu icon with a menu item select callback
-void menu_select_callback(int index, void *ctx) {
-  // Here we just change the subtitle to a literal string
-  menu_items[index].subtitle = "You've hit select here!";
-  // Mark the layer to be updated
-  layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
+int selected_message;
+
+void send_message(const char * message) {
+  Tuplet value = TupletCString(MESSAGE_KEY, message);
+
+  DictionaryIterator *iter;
+  app_message_out_get(&iter);
+
+  if (iter == NULL)
+    return;
+
+  dict_write_tuplet(iter, &value);
+  dict_write_end(iter);
+
+  app_message_out_send();
+  app_message_out_release();
 }
 
+// You can capture when the user selects a menu icon with a menu item select callback
+void menu_select_callback(int index, void *ctx) {
+  selected_message = index;
+  send_message(menu_items[index].title);
+
+  // Update UI
+  menu_items[index].subtitle = "Sending message...";
+  layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
+}
 
 // This initializes the menu upon window load
 void window_load(Window *me) {
@@ -90,10 +111,34 @@ void handle_init(AppContextRef ctx) {
   });
 }
 
+void my_out_sent_handler(DictionaryIterator *sent, void *context) {
+  // outgoing message was delivered
+  // Update UI
+  menu_items[selected_message].subtitle = "Message Sent";
+  layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
+}
+void my_out_fail_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
+  // outgoing message failed
+  // Update UI
+  menu_items[selected_message].subtitle = "Message Failed";
+  layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
+}
+void my_in_rcv_handler(DictionaryIterator *received, void *context) {
+  // incoming message received
+}
+void my_in_drp_handler(void *context, AppMessageResult reason) {
+  // incoming message dropped
+}
 
 void pbl_main(void *params) {
   PebbleAppHandlers handlers = {
-    .init_handler = &handle_init
+    .init_handler = &handle_init,
+    .messaging_info = {
+      .buffer_sizes = {
+        .inbound = 256,
+        .outbound = 256,
+      }
+    }
   };
   app_event_loop(params, &handlers);
 }
