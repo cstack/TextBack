@@ -186,7 +186,7 @@ static void app_received_msg(DictionaryIterator* received, void* context) {
     display_message(message_tuple->value->cstring);
   }
 
-  for (int key = PHRASE_KEY1; key < PHRASE_KEY5; key++) {
+  for (int key = PHRASE_KEY1; key <= PHRASE_KEY5; key++) {
     Tuple *phrase_tuple = dict_find(received, key);
     if (phrase_tuple) {
       vibes_short_pulse();
