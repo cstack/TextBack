@@ -32,10 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.textback.SetPhrases"
-            android:label="@string/title_activity_set_phrases"
-            />
+
 
         <receiver
             android:name="com.example.textback.SMSReceiver"
@@ -47,10 +44,7 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name="com.example.SetPhrases"
-            android:label="@string/title_activity_set_phrases" >
-        </activity>
+        <service android:name="com.example.textback.TextBackService"/>
     </application>
 
 </manifest>

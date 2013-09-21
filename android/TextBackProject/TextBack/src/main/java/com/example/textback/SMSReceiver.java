@@ -1,8 +1,13 @@
 package com.example.textback;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.BaseColumns;
+import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
@@ -25,14 +30,14 @@ public class SMSReceiver extends BroadcastReceiver {
         if(action.equals(ACTION_SMS_RECEIVED)){
 
             String address = "", str = "";
-            int contactId = -1;
+            String contactName = "";
 
             SmsMessage[] msgs = getMessagesFromIntent(mIntent);
             if (msgs != null) {
                 for (int i = 0; i < msgs.length; i++) {
                     address = msgs[i].getOriginatingAddress();
-                    //contactId = ContactsUtils.getContactId(mContext, address, "address");
-                    str += String.format("Message from %s :\n", address);
+                    contactName = getContactDisplayNameByNumber(context, address);
+                    str += String.format("Message from %s :\n", contactName);
                     str += msgs[i].getMessageBody().toString();
                     str += "\n";
                 }
@@ -54,15 +59,37 @@ public class SMSReceiver extends BroadcastReceiver {
 
             // ---send a broadcast intent to update the SMS received in the
             // activity---
-            Intent broadcastIntent = new Intent();
+            Intent broadcastIntent = new Intent(context, TextBackService.class);
             broadcastIntent.setAction("SMS_RECEIVED_ACTION");
             broadcastIntent.putExtra("sms", str);
-            context.sendBroadcast(broadcastIntent);
-            ((MainActivity)context).SMSReceived(address, str);
+            broadcastIntent.putExtra("address", address);
+
+            context.startService(broadcastIntent);
         }
 
     }
+    public String getContactDisplayNameByNumber(Context context, String number) {
+        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+        String name = number;
 
+        ContentResolver contentResolver = context.getContentResolver();
+        Cursor contactLookup = contentResolver.query(uri, new String[] {BaseColumns._ID,
+                ContactsContract.PhoneLookup.DISPLAY_NAME }, null, null, null);
+
+        try {
+            if (contactLookup != null && contactLookup.getCount() > 0) {
+                contactLookup.moveToNext();
+                name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
+                //String contactId = contactLookup.getString(contactLookup.getColumnIndex(BaseColumns._ID));
+            }
+        } finally {
+            if (contactLookup != null) {
+                contactLookup.close();
+            }
+        }
+
+        return name;
+    }
     public static SmsMessage[] getMessagesFromIntent(Intent intent) {
         Object[] messages = (Object[]) intent.getSerializableExtra("pdus");
         byte[][] pduObjs = new byte[messages.length][];
