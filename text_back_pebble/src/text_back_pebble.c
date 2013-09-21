@@ -3,6 +3,9 @@
 #include "pebble_fonts.h"
 
 
+/*
+UUID E8AE10A2-2E91-473E-B2FA6DD382BACD52
+*/
 #define MY_UUID { 0xE8, 0xAE, 0x10, 0xA2, 0x2E, 0x91, 0x47, 0x3E, 0xB2, 0xFA, 0x6D, 0xD3, 0x82, 0xBA, 0xCD, 0x52 }
 PBL_APP_INFO(MY_UUID,
              "TextBack", "MHacks",
@@ -16,6 +19,9 @@ PBL_APP_INFO(MY_UUID,
 
 #define MESSAGE_KEY 0x0
 
+static void app_send_failed(DictionaryIterator* failed, AppMessageResult reason, void* context);
+static void app_received_msg(DictionaryIterator* received, void* context);
+
 
 Window window;
 
@@ -24,7 +30,30 @@ SimpleMenuLayer simple_menu_layer;
 SimpleMenuSection menu_sections[NUM_MENU_SECTIONS];
 SimpleMenuItem menu_items[NUM_MENU_ITEMS];
 
+static bool callbacks_registered;
+static AppMessageCallbacksNode app_callbacks;
+
 int selected_message;
+
+bool register_callbacks() {
+  if (callbacks_registered) {
+    if (app_message_deregister_callbacks(&app_callbacks) == APP_MSG_OK)
+      callbacks_registered = false;
+  }
+  if (!callbacks_registered) {
+    app_callbacks = (AppMessageCallbacksNode){
+      .callbacks = {
+        .out_failed = app_send_failed,
+        .in_received = app_received_msg
+      },
+      .context = NULL
+    };
+    if (app_message_register_callbacks(&app_callbacks) == APP_MSG_OK) {
+      callbacks_registered = true;
+    }
+  }
+  return callbacks_registered;
+}
 
 void send_message(const char * message) {
   Tuplet value = TupletCString(MESSAGE_KEY, message);
@@ -40,6 +69,11 @@ void send_message(const char * message) {
 
   app_message_out_send();
   app_message_out_release();
+}
+
+void display_message(const char * message) {
+  menu_items[0].title = message;
+  layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
 }
 
 // You can capture when the user selects a menu icon with a menu item select callback
@@ -109,6 +143,8 @@ void handle_init(AppContextRef ctx) {
     .load = window_load,
     .unload = window_unload,
   });
+
+  register_callbacks();
 }
 
 void my_out_sent_handler(DictionaryIterator *sent, void *context) {
@@ -125,9 +161,28 @@ void my_out_fail_handler(DictionaryIterator *failed, AppMessageResult reason, vo
 }
 void my_in_rcv_handler(DictionaryIterator *received, void *context) {
   // incoming message received
+  Tuple *message_tuple = dict_find(received, MESSAGE_KEY);
+
+  if (message_tuple) {
+    display_message(message_tuple->value->cstring);
+  } else {
+    display_message("Could not parse message");
+  }
 }
-void my_in_drp_handler(void *context, AppMessageResult reason) {
-  // incoming message dropped
+
+static void app_send_failed(DictionaryIterator* failed, AppMessageResult reason, void* context) {
+  display_message("Message dropped");
+}
+
+static void app_received_msg(DictionaryIterator* received, void* context) {
+  // incoming message received
+  Tuple *message_tuple = dict_find(received, MESSAGE_KEY);
+
+  if (message_tuple) {
+    display_message(message_tuple->value->cstring);
+  } else {
+    display_message("Could not parse message");
+  }
 }
 
 void pbl_main(void *params) {
