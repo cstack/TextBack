@@ -19,6 +19,7 @@ PBL_APP_INFO(MY_UUID,
 
 #define MESSAGE_KEY 0x0
 #define PHRASE_KEY 0x1
+#define READY_KEY 0x2
 
 #define NUM_PHRASES 5
 #define MAX_PHRASE_LENGTH 140
@@ -86,6 +87,22 @@ void send_message(const char * message) {
   app_message_out_release();
 }
 
+void send_ready_for_message() {
+  Tuplet value = TupletInteger(READY_KEY, 1);
+
+  DictionaryIterator *iter;
+  app_message_out_get(&iter);
+
+  if (iter == NULL)
+    return;
+
+  dict_write_tuplet(iter, &value);
+  dict_write_end(iter);
+
+  app_message_out_send();
+  app_message_out_release();
+}
+
 /*
 Show the received message on the screen
 */
@@ -128,7 +145,7 @@ void show_response_menu() {
 
   // Bind the menu items to the corresponding menu sections
   menu_sections[0] = (SimpleMenuSection){
-    .num_items = NUM_MENU_ITEMS,
+    .num_items = num_canned_responses,
     .items = menu_items,
   };
 
@@ -145,11 +162,11 @@ void show_response_menu() {
 }
 
 static void app_send_failed(DictionaryIterator* failed, AppMessageResult reason, void* context) {
-  display_message("Message dropped");
+  display_message("Could not send message to phone.");
 }
 
 static void app_send_succeeded(DictionaryIterator *sent, void *context) {
-  menu_items[selected_message].subtitle = "Message Sent";
+  menu_items[selected_message].subtitle = "Message sent to phone";
   layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
 }
 
@@ -160,7 +177,9 @@ static void app_received_msg(DictionaryIterator* received, void* context) {
   Tuple *phrase_tuple = dict_find(received, PHRASE_KEY);
   if (message_tuple) {
     display_message(message_tuple->value->cstring);
-  } else if (phrase_tuple) {
+  }
+
+  if (phrase_tuple) {
     add_phrase(phrase_tuple->value->cstring);
   }
 }
@@ -209,6 +228,8 @@ void show_message_view(Window * me) {
   scroll_layer_add_child(&scroll_layer, &text_layer.layer);
 
   layer_add_child(&me->layer, &scroll_layer.layer);
+
+  send_ready_for_message();
 }
 
 void handle_init(AppContextRef ctx) {
