@@ -8,11 +8,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
-import com.getpebble.android.kit.Constants;
+
+
 import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.util.PebbleDictionary;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -103,8 +103,7 @@ public class MainActivity extends Activity {
         final String customAppName = "My Sports App";
         final Bitmap customIcon = BitmapFactory.decodeResource(getResources(), R.drawable.watch);
 
-        PebbleKit.customizeWatchApp(
-                getApplicationContext(), Constants.PebbleAppType.SPORTS, customAppName, customIcon);
+
     }
 
     // Push (distance, time, pace) data to be displayed on Pebble's Sports app.
@@ -120,14 +119,5 @@ public class MainActivity extends Activity {
 
     }
 
-    // The units in the sports app can be toggled between Metric (1) and Imperial (0)
-    // by sending the following message to Pebble once the sports app is running.
-    public void changeUnitsOnWatch(View view) {
-        PebbleDictionary data = new PebbleDictionary();
-        data.addUint8(Constants.SPORTS_UNITS_KEY,
-                (byte) (useMetric ? Constants.SPORTS_UNITS_METRIC : Constants.SPORTS_UNITS_IMPERIAL));
 
-        PebbleKit.sendDataToPebble(getApplicationContext(), Constants.SPORTS_UUID, data);
-        useMetric = !useMetric;
-    }
 }

@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../PebbleKit/PebbleKit.iml" filepath="$PROJECT_DIR$/../PebbleKit/PebbleKit.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../PebbleKit/PebbleKit.iml" filepath="$PROJECT_DIR$/../PebbleKit/PebbleKit.iml" />
       <module fileurl="file://$PROJECT_DIR$/PebbleKitExample.iml" filepath="$PROJECT_DIR$/PebbleKitExample.iml" />
     </modules>
   </component>
