@@ -18,6 +18,10 @@ PBL_APP_INFO(MY_UUID,
 #define NUM_MENU_SECTIONS 1
 
 #define MESSAGE_KEY 0x0
+#define PHRASE_KEY 0x1
+
+#define NUM_PHRASES 5
+#define MAX_PHRASE_LENGTH 140
 
 static void app_send_succeeded(DictionaryIterator *sent, void *context);
 static void app_send_failed(DictionaryIterator* failed, AppMessageResult reason, void* context);
@@ -37,6 +41,8 @@ const int vert_scroll_text_padding = 10;
 SimpleMenuLayer simple_menu_layer;
 SimpleMenuSection menu_sections[NUM_MENU_SECTIONS];
 SimpleMenuItem menu_items[NUM_MENU_ITEMS];
+char canned_responses[NUM_PHRASES][MAX_PHRASE_LENGTH];
+int num_canned_responses;
 
 static bool callbacks_registered;
 static AppMessageCallbacksNode app_callbacks;
@@ -80,6 +86,9 @@ void send_message(const char * message) {
   app_message_out_release();
 }
 
+/*
+Show the received message on the screen
+*/
 void display_message(const char * message) {
   strcpy(scroll_text, message);
 
@@ -88,6 +97,13 @@ void display_message(const char * message) {
   scroll_layer_set_content_size(&scroll_layer, GSize(144, max_size.h + vert_scroll_text_padding));
 
   layer_mark_dirty(&(text_layer.layer));
+}
+
+/*
+Add phrase to list of canned responses
+*/
+void add_phrase(const char * phrase) {
+  strcpy(canned_responses[num_canned_responses++], phrase);
 }
 
 // You can capture when the user selects a menu icon with a menu item select callback
@@ -102,25 +118,13 @@ void menu_select_callback(int index, void *ctx) {
 
 // This initializes the menu upon window load
 void show_response_menu() {
-  // Although we already defined NUM_menu_items, you can define
-  // an int as such to easily change the order of menu items later
-  int num_a_items = 0;
 
-  // This is an example of how you'd set a simple menu item
-  menu_items[num_a_items++] = (SimpleMenuItem){
-    // You should give each menu item a title and callback
-    .title = "Okay.",
-    .callback = menu_select_callback,
-  };
-  // The menu items appear in the order saved in the menu items array
-  menu_items[num_a_items++] = (SimpleMenuItem){
-    .title = "See you then.",
-    .callback = menu_select_callback,
-  };
-  menu_items[num_a_items++] = (SimpleMenuItem){
-    .title = "Lololol.",
-    .callback = menu_select_callback,
-  };
+  for (int i = 0; i < num_canned_responses; i++) {
+    menu_items[i] = (SimpleMenuItem){
+      .title = canned_responses[i],
+      .callback = menu_select_callback,
+    };
+  }
 
   // Bind the menu items to the corresponding menu sections
   menu_sections[0] = (SimpleMenuSection){
@@ -151,13 +155,13 @@ static void app_send_succeeded(DictionaryIterator *sent, void *context) {
 
 static void app_received_msg(DictionaryIterator* received, void* context) {
   // incoming message received
-  //vibes_short_pulse();
-  Tuple *message_tuple = dict_find(received, MESSAGE_KEY);
 
+  Tuple *message_tuple = dict_find(received, MESSAGE_KEY);
+  Tuple *phrase_tuple = dict_find(received, PHRASE_KEY);
   if (message_tuple) {
     display_message(message_tuple->value->cstring);
-  } else {
-    display_message("Could not parse message");
+  } else if (phrase_tuple) {
+    add_phrase(phrase_tuple->value->cstring);
   }
 }
 
