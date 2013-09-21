@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -59,6 +60,10 @@ public class SetPhrases extends Activity {
 
     }
     public void updatePhrases(){
+
+        Button saveButton = (Button)findViewById(R.id.insert_phrase_button);
+        saveButton.setEnabled(phrases.size()<5);
+
         listAdapter.notifyDataSetChanged();
         savePhrasesInPreferences();
     }
@@ -66,7 +71,13 @@ public class SetPhrases extends Activity {
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
         Editor prefsEditor = appSharedPrefs.edit();
-        prefsEditor.putString("Phrases", phrases.toString());
+        StringBuilder sb = new StringBuilder();
+        for (String s : phrases)
+        {
+            sb.append(s);
+            sb.append((char)29);
+        }
+        prefsEditor.putString("Phrases", sb.toString());
         prefsEditor.commit();
     }
     public void loadPhrasesFromPreferences(){
@@ -75,7 +86,7 @@ public class SetPhrases extends Activity {
         Editor prefsEditor = appSharedPrefs.edit();
         String phrasesString = appSharedPrefs.getString("Phrases", "");
         if(phrasesString!=null){
-            phrases=new ArrayList<String>(Arrays.asList(phrasesString.split(",")));
+            phrases=new ArrayList<String>(Arrays.asList(phrasesString.split(""+(char)29)));
         }
         else{
             phrases=new ArrayList<String>();
