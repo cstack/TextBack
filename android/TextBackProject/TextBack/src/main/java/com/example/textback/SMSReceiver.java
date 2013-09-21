@@ -24,7 +24,7 @@ public class SMSReceiver extends BroadcastReceiver {
 
         if(action.equals(ACTION_SMS_RECEIVED)){
 
-            String address, str = "";
+            String address = "", str = "";
             int contactId = -1;
 
             SmsMessage[] msgs = getMessagesFromIntent(mIntent);
@@ -58,7 +58,7 @@ public class SMSReceiver extends BroadcastReceiver {
             broadcastIntent.setAction("SMS_RECEIVED_ACTION");
             broadcastIntent.putExtra("sms", str);
             context.sendBroadcast(broadcastIntent);
-            ((MainActivity)context).SMSReceived(str);
+            ((MainActivity)context).SMSReceived(address, str);
         }
 
     }
