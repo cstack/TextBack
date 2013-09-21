@@ -19,8 +19,10 @@ PBL_APP_INFO(MY_UUID,
 
 #define MESSAGE_KEY 0x0
 
+static void app_send_succeeded(DictionaryIterator *sent, void *context);
 static void app_send_failed(DictionaryIterator* failed, AppMessageResult reason, void* context);
 static void app_received_msg(DictionaryIterator* received, void* context);
+void hide_message_view();
 
 
 Window window;
@@ -49,6 +51,7 @@ bool register_callbacks() {
   if (!callbacks_registered) {
     app_callbacks = (AppMessageCallbacksNode){
       .callbacks = {
+        .out_sent = app_send_succeeded,
         .out_failed = app_send_failed,
         .in_received = app_received_msg
       },
@@ -98,8 +101,7 @@ void menu_select_callback(int index, void *ctx) {
 }
 
 // This initializes the menu upon window load
-void window_load(Window *me) {
-
+void show_response_menu() {
   // Although we already defined NUM_menu_items, you can define
   // an int as such to easily change the order of menu items later
   int num_a_items = 0;
@@ -129,35 +131,27 @@ void window_load(Window *me) {
   // Now we prepare to initialize the simple menu layer
   // We need the bounds to specify the simple menu layer's viewport size
   // In this case, it'll be the same as the window's
-  GRect bounds = me->layer.bounds;
+  GRect bounds = window.layer.bounds;
 
   // Initialize the simple menu layer
-  simple_menu_layer_init(&simple_menu_layer, bounds, me, menu_sections, NUM_MENU_SECTIONS, NULL);
+  simple_menu_layer_init(&simple_menu_layer, bounds, &window, menu_sections, NUM_MENU_SECTIONS, NULL);
 
   // Add it to the window for display
-  layer_add_child(&me->layer, simple_menu_layer_get_layer(&simple_menu_layer));
-}
-
-void my_out_sent_handler(DictionaryIterator *sent, void *context) {
-  // outgoing message was delivered
-  // Update UI
-  menu_items[selected_message].subtitle = "Message Sent";
-  layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
-}
-void my_out_fail_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
-  // outgoing message failed
-  // Update UI
-  menu_items[selected_message].subtitle = "Message Failed";
-  layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
+  layer_add_child(&window.layer, simple_menu_layer_get_layer(&simple_menu_layer));
 }
 
 static void app_send_failed(DictionaryIterator* failed, AppMessageResult reason, void* context) {
   display_message("Message dropped");
 }
 
+static void app_send_succeeded(DictionaryIterator *sent, void *context) {
+  menu_items[selected_message].subtitle = "Message Sent";
+  layer_mark_dirty(simple_menu_layer_get_layer(&simple_menu_layer));
+}
+
 static void app_received_msg(DictionaryIterator* received, void* context) {
   // incoming message received
-  vibes_short_pulse();
+  //vibes_short_pulse();
   Tuple *message_tuple = dict_find(received, MESSAGE_KEY);
 
   if (message_tuple) {
@@ -165,6 +159,19 @@ static void app_received_msg(DictionaryIterator* received, void* context) {
   } else {
     display_message("Could not parse message");
   }
+}
+
+void select_single_click_handler(ClickRecognizerRef recognizer, Window *window) {
+  hide_message_view();
+  show_response_menu();
+}
+
+void setup_respond_button(ClickConfig **config, void *context) {
+  config[BUTTON_ID_SELECT]->click.handler = (ClickHandler) select_single_click_handler;
+}
+
+void hide_message_view() {
+  layer_set_hidden(&scroll_layer.layer, true);
 }
 
 void show_message_view(Window * me) {
@@ -176,6 +183,10 @@ void show_message_view(Window * me) {
   // This binds the scroll layer to the window so that up and down map to scrolling
   // You may use scroll_layer_set_callbacks to add or override interactivity
   scroll_layer_set_click_config_onto_window(&scroll_layer, me);
+  ScrollLayerCallbacks handlers = {
+    .click_config_provider = &setup_respond_button
+  };
+  scroll_layer_set_callbacks(&scroll_layer, handlers);
 
   // Set the initial max size
   scroll_layer_set_content_size(&scroll_layer, max_text_bounds.size);
