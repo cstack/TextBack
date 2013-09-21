@@ -50,7 +50,11 @@ public class MainActivity extends Activity {
             @Override
             public void receiveData(final Context context, final int transactionId, final PebbleDictionary data) {
 
-                final int readyData = data.getInteger(PEBBLE_READY).intValue();
+                final int readyData;
+                if(data.getInteger(PEBBLE_READY)!=null){
+                    readyData = data.getInteger(PEBBLE_READY).intValue();
+                }
+                else readyData = 0;
                 final String messageData = data.getString(PEBBLE_MESSAGE);
                 PebbleKit.sendAckToPebble(context, transactionId);
                 Handler handler = new Handler();
