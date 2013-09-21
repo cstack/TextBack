@@ -1,20 +1,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
         <EditText
             android:id="@+id/phone_number"
-            android:layout_weight="1"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/phone_number"
         />
+
+
         <EditText
             android:id="@+id/message_text"
-            android:layout_weight="1"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/message_text" />
         <Button
@@ -22,6 +24,16 @@
             android:layout_height="wrap_content"
             android:text="@string/button_send"
             android:onClick="sendSMS"/>
+
+
+        <TextView
+            android:id="@+id/display_received"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HELLOOOOOOO"
+            android:singleLine="false"
+            />
+
 
 </LinearLayout>
 
