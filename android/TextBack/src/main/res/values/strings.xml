@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TextBack</string>
+    <string name="action_settings">Settings</string>
+    <string name="button_send">Send</string>
+    <string name="main_activity">Text a friend</string>
+    <string name="message_text">Message Text</string>
+    <string name="phone_number">Phone Number</string>
+
+</resources>
