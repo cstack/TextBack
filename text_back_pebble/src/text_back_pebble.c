@@ -2,6 +2,10 @@
 #include "pebble_app.h"
 #include "pebble_fonts.h"
 
+#include <stdint.h>
+#include <string.h>
+#include <stdlib.h>
+
 
 /*
 UUID E8AE10A2-2E91-473E-B2FA6DD382BACD52
@@ -14,14 +18,18 @@ PBL_APP_INFO(MY_UUID,
              APP_INFO_STANDARD_APP);
 
 
-#define NUM_MENU_ITEMS 3
 #define NUM_MENU_SECTIONS 1
 
-#define MESSAGE_KEY 0x0
-#define PHRASE_KEY 0x1
-#define READY_KEY 0x2
+#define MESSAGE_TO_PEBBLE_KEY 0x0
+#define PHRASE_KEY1 0x1
+#define PHRASE_KEY2 0x2
+#define PHRASE_KEY3 0x3
+#define PHRASE_KEY4 0x4
+#define PHRASE_KEY5 0x5
+#define READY_KEY 0x6
+#define MESSAGE_TO_PHONE_KEY 0x7
 
-#define NUM_PHRASES 5
+#define MAX_NUM_PHRASES 5
 #define MAX_PHRASE_LENGTH 140
 
 static void app_send_succeeded(DictionaryIterator *sent, void *context);
@@ -41,8 +49,8 @@ const int vert_scroll_text_padding = 10;
 // Response Menu
 SimpleMenuLayer simple_menu_layer;
 SimpleMenuSection menu_sections[NUM_MENU_SECTIONS];
-SimpleMenuItem menu_items[NUM_MENU_ITEMS];
-char canned_responses[NUM_PHRASES][MAX_PHRASE_LENGTH];
+SimpleMenuItem menu_items[MAX_NUM_PHRASES];
+char canned_responses[MAX_NUM_PHRASES][MAX_PHRASE_LENGTH];
 int num_canned_responses;
 
 static bool callbacks_registered;
@@ -72,7 +80,7 @@ bool register_callbacks() {
 }
 
 void send_message(const char * message) {
-  Tuplet value = TupletCString(MESSAGE_KEY, message);
+  Tuplet value = TupletCString(MESSAGE_TO_PHONE_KEY, message);
 
   DictionaryIterator *iter;
   app_message_out_get(&iter);
@@ -173,14 +181,17 @@ static void app_send_succeeded(DictionaryIterator *sent, void *context) {
 static void app_received_msg(DictionaryIterator* received, void* context) {
   // incoming message received
 
-  Tuple *message_tuple = dict_find(received, MESSAGE_KEY);
-  Tuple *phrase_tuple = dict_find(received, PHRASE_KEY);
+  Tuple *message_tuple = dict_find(received, MESSAGE_TO_PEBBLE_KEY);
   if (message_tuple) {
     display_message(message_tuple->value->cstring);
   }
 
-  if (phrase_tuple) {
-    add_phrase(phrase_tuple->value->cstring);
+  for (int key = PHRASE_KEY1; key <= PHRASE_KEY5; key++) {
+    Tuple *phrase_tuple = dict_find(received, key);
+    if (phrase_tuple) {
+      vibes_short_pulse();
+      add_phrase(phrase_tuple->value->cstring);
+    }
   }
 }
 
